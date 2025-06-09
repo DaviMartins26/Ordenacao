@@ -2,9 +2,9 @@ import java.io.*;
 import java.util.*;
 
 
-public class MergeSort {
+public class ComprovacaoMergeSort {
 
-    //Contadores glocais para as estatisticas
+    //Contadores globais para as estatisticas
     static int totalTrocas = 0; // total de vezes que elementos foram movidos
     static int totalInteracoes = 0; // total de vezes que o algoritimo percebeu ou comparou elementos
 
@@ -36,12 +36,12 @@ public class MergeSort {
 
         // Copia os dados para os sub vetores
         for (int i = 0; i<tamanhoEsquerda; i++)
-        // esquerda começa no inicio e vai indo 1 por 1 até o meio
+            // esquerda começa no inicio e vai indo 1 por 1 até o meio
             esquerda[i] = vetor[inicio +i];
         for (int j = 0; j<tamanhoDireita; j++)
-        // direita começa no meio +1 e vai indo até o fim
-            direita[j] = vetor[meio + 1 + j];    
-        
+            // direita começa no meio +1 e vai indo até o fim
+            direita[j] = vetor[meio + 1 + j];
+
         //Indices para trabalhar com os vetores
         int i =0, j = 0; // i = esquerda j = direita
         int tamanhoVetor = inicio; // indice para reconstruir o vetor original
@@ -83,10 +83,10 @@ public class MergeSort {
             // e ajuda a controlar o loop da leitura do arquivo
             while ((linha = leitor.readLine()) != null) {
                 if (linhaAtual == linhaDesejada){
-                    String[] numerosComoTexto = linha.split(",");
-                    int [] vetor = new int[numerosComoTexto.length];
-                    for (int i = 0; i<numerosComoTexto.length;i++){
-                        vetor[i] = Integer.parseInt(numerosComoTexto[i]);
+                    String[] partes = linha.split(",");
+                    int [] vetor = new int[partes.length];
+                    for (int i = 0; i<partes.length;i++){
+                        vetor[i] = Integer.parseInt(partes[i]);
                     }
                     return vetor;
                 }
@@ -106,58 +106,30 @@ public class MergeSort {
                 escritor.write(String.join(",",linha));
                 escritor.newLine();
             }
-            } catch (IOException e){
-                e.printStackTrace();
+        } catch (IOException e){
+            e.printStackTrace();
         }
     }
 
     public static void main(String[] args){
-        //arquivos com os dados
-        String[] arquivosDados = {
-            "dados_1000.txt",
-            "dados_10000.txt",
-            "dados_100000.txt",
-            "dados_500000.txt",
-            "dados_1000000.txt"
-        };
+        System.out.println("--- Teste com vetor específico ---");
+        int[] meuVetorDeTeste = {255, 132, 7, 55, 190976, 204, 500, 9, 1};
 
-        // loop pelos arquivos
-        for (String nomeArquivo : arquivosDados){
-            List<String[]> resultadosRodadas = new ArrayList<>();
+        System.out.println("Vetor original: " + Arrays.toString(meuVetorDeTeste));
 
-            // 5 rodadas por arquivo
-            for (int rodada = 0; rodada <5; rodada++){
-                // o tamanho do vetor vai mudar sempre que mudar o tamanho total de dados
-                int[] vetor = lerLinha(nomeArquivo, rodada);
+        totalTrocas = 0;
+        totalInteracoes = 0;
 
-                totalTrocas = 0;
-                totalInteracoes = 0;
+        long inicioTeste = System.currentTimeMillis();
+        fazerMergeSort(meuVetorDeTeste, 0, meuVetorDeTeste.length - 1);
+        long fimTeste = System.currentTimeMillis();
 
-                // faz a medição de tempo em ms e precisa ser em long
-                long tempoInicial = System.currentTimeMillis();
-                // o fim é o tamanho do vetor da vez -1 pq o indice começa em 0 se não diminuir vai procurar 1 indice a mais(que n exsite)
-                fazerMergeSort(vetor, 0, vetor.length - 1);
-                long tempoFinal = System.currentTimeMillis();
-                long duracaoMs = (tempoFinal - tempoInicial);
+        System.out.println("Vetor ordenado: " + Arrays.toString(meuVetorDeTeste));
+        System.out.println("Tempo de execução: " + (fimTeste - inicioTeste) + " ms");
+        System.out.println("Total de trocas: " + totalTrocas);
+        System.out.println("Total de interações: " + totalInteracoes);
+        System.out.println("------------------------------------");
 
-
-                resultadosRodadas.add(new String[]{
-                    String.valueOf(rodada + 1),
-                    String.valueOf(duracaoMs),
-                    String.valueOf(totalTrocas),
-                    String.valueOf(totalInteracoes)
-                });
-
-                System.out.println("Arquivo: " + nomeArquivo + " | Rodada: " + (rodada + 1) + " concluída.");
-            }
-            // Gera o nome do arquivo CSV de saída com base no nome de entrada
-            String SaidaCSV = "resultados_mergeSort_" +
-                                  nomeArquivo.replace("dados_", "").replace(".txt", "") +
-                                  ".csv";
-
-            salvarCSV(SaidaCSV, resultadosRodadas);
-            System.out.println(">>> CSV gerado: " + SaidaCSV);
-        }
 
     }
 }
