@@ -4,7 +4,7 @@ import java.util.*;
 
 public class ComprovacaoGnomeSort {
 
-    // Contadores Globais (agora como long, para evitar overflow!)
+    // Contadores Globais
     static long totalTrocas =0;
     static long totalInteracoes =0;
 

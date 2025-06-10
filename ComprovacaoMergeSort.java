@@ -17,7 +17,6 @@ public class ComprovacaoMergeSort {
             fazerMergeSort(vetor, inicio, meio);
             //Ordena a metade direita
             fazerMergeSort(vetor, meio + 1, fim);
-
             //Mescla as duas metades ordenadas
             merge(vetor,inicio,meio,fim);
         }
