@@ -38,6 +38,8 @@ O Merge Sort funciona dividindo recursivamente o vetor ao meio até que cada sub
 | 500.000          | 171,2            | 9.475.712     | 9.337.085         |
 | 1.000.000        | 250              | 19.951.424    | 19.674.398        |
 
+> 💡 Um padrão observado: o número de **trocas**, é sempre o mesmo em todas as rodadas
+
 > Gráficos do Merge Sort aqui 🎯
 
 ![merge1k](https://github.com/user-attachments/assets/eb2d9e76-4992-43b8-845c-b1d46b195764)
